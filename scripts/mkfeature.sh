@@ -15,7 +15,7 @@ BASE="src/features/$FEATURE_NAME"
 
 for dir in services components store hooks types utils; do
   mkdir -p "$BASE/$dir"
-  touch "$BASE/$dir/.gitkeep"
+  # touch "$BASE/$dir/.gitkeep"
 done
 
 echo "✅  Fitur '$FEATURE_NAME' berhasil dibuat di $BASE"

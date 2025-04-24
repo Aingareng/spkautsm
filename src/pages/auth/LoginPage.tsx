@@ -11,10 +11,13 @@ import useLogin from "@/features/login/hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import localStorageUtils from "@/shared/utils/storage";
 import { StatusCodes } from "@/shared/types/statusCodes";
+import { useAppDispatch } from "@/shared/hooks/reduxHooks";
+import { logiSuccess } from "@/features/login/store/loginStore";
 
 export default function Login() {
   const { loginApi } = useLogin();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   async function handleFormSubmit(payload: ILoginRequest) {
     const response = await loginApi(payload);
@@ -23,6 +26,7 @@ export default function Login() {
     }
     navigate("/");
     localStorageUtils.set("isLoggedIn", true);
+    dispatch(logiSuccess());
   }
 
   return (
