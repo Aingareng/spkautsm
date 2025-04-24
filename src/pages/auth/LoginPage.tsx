@@ -17,7 +17,7 @@ export default function Login() {
   async function handleFormSubmit(payload: ILoginRequest) {
     const response = await loginApi(payload);
     if (response.status !== 201) {
-      throw new Error("Login failed");
+      return;
     }
     navigate("/");
   }
