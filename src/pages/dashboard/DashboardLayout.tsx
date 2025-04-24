@@ -6,20 +6,27 @@ export default function DashboardLayout() {
   const dispatch = useAppDispatch();
 
   const handleTabChange = (value: string) => {
-    dispatch(setTabValue(value as "bio" | "quiz"));
+    dispatch(setTabValue(value as "bio" | "quiz" | "result"));
   };
 
   return (
     <div className=" flex flex-col min-h-screen">
-      <header className="h-16  flex items-center justify-center px-6">
+      <header className="h-16 flex items-center justify-center ">
         <Tabs
           defaultValue="bio"
           className="w-[400px]"
           onValueChange={handleTabChange}
         >
-          <TabsList>
-            <TabsTrigger value="bio">Bio Pasien</TabsTrigger>
-            <TabsTrigger value="quiz">Kuisoner</TabsTrigger>
+          <TabsList className="w-full">
+            <TabsTrigger className="cursor-pointer" value="bio">
+              Bio Pasien
+            </TabsTrigger>
+            <TabsTrigger disabled className="cursor-pointer" value="quiz">
+              Kuisoner
+            </TabsTrigger>
+            <TabsTrigger disabled className="cursor-pointer" value="result">
+              Hasil
+            </TabsTrigger>
           </TabsList>
         </Tabs>
       </header>
