@@ -9,6 +9,8 @@ import LoginForm from "@/features/login/components/LoginForm";
 import { ILoginRequest } from "@/features/login/types/login";
 import useLogin from "@/features/login/hooks/useLogin";
 import { useNavigate } from "react-router-dom";
+import localStorageUtils from "@/shared/utils/storage";
+import { StatusCodes } from "@/shared/types/statusCodes";
 
 export default function Login() {
   const { loginApi } = useLogin();
@@ -16,10 +18,11 @@ export default function Login() {
 
   async function handleFormSubmit(payload: ILoginRequest) {
     const response = await loginApi(payload);
-    if (response.status !== 201) {
+    if (response.status !== StatusCodes.CREATED) {
       return;
     }
     navigate("/");
+    localStorageUtils.set("isLoggedIn", true);
   }
 
   return (
