@@ -27,11 +27,20 @@ import {
 } from "@/shared/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group";
 import { Button } from "@/shared/components/ui/button";
-// import { IBioPatientPayload } from "../types/dashboard";
+import usePatient from "../hooks/usePatient";
+import { IBioPatientPayload } from "../types/dashboard";
+import { StatusCodes } from "@/shared/types/statusCodes";
+import { useAppDispatch } from "@/shared/hooks/reduxHooks";
+import { setPatientStatus } from "../store/bioPatientStore";
+import localStorageUtils from "@/shared/utils/storage";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  age: z.number().min(1, { message: "Age is required" }),
+  name: z.string().min(1, { message: "Nama pasien wajib diisi" }),
+  age: z
+    .string()
+    .min(1, { message: "Umur pasien wajib diisi" })
+    .max(20, { message: "Batas umur pasien 20 tahun" })
+    .regex(/^\d+$/, { message: "Umur hanya boleh berupa angka" }),
   sex: z.enum(["f", "m"]),
   familyAsd: z.enum(["yes", "no", "unknown"]),
   juandice: z.enum(["yes", "no", "unknown"]),
@@ -42,15 +51,30 @@ export default function BioPatient() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      age: 0,
+      age: "",
       familyAsd: "unknown",
       juandice: "unknown",
       sex: "m",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("🚀 ~ BioPatient ~ onSubmit ~ values:", values);
+  const { createPatient } = usePatient();
+  const dispatch = useAppDispatch();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const payload: IBioPatientPayload = {
+      ...values,
+      age: +values.age,
+    };
+    const result = await createPatient(payload);
+
+    if (result.status === StatusCodes.CREATED) {
+      dispatch(setPatientStatus("CHEKUP"));
+
+      localStorageUtils.set("USER", result.data);
+    }
+
+    return;
   }
 
   return (
@@ -87,11 +111,7 @@ export default function BioPatient() {
                 <FormItem>
                   <FormLabel>Umur Pasien</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Masukan umur pasien"
-                      {...field}
-                      type="number"
-                    />
+                    <Input placeholder="Masukan umur pasien" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

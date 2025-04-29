@@ -7,3 +7,7 @@ export interface ILoginResponse {
   message: string;
   data: null;
 }
+
+export interface IAuthData {
+  isLogin: boolean;
+}

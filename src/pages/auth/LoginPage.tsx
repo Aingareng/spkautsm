@@ -9,7 +9,6 @@ import LoginForm from "@/features/login/components/LoginForm";
 import { ILoginRequest } from "@/features/login/types/login";
 import useLogin from "@/features/login/hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import localStorageUtils from "@/shared/utils/storage";
 import { StatusCodes } from "@/shared/types/statusCodes";
 import { useAppDispatch } from "@/shared/hooks/reduxHooks";
 import { logiSuccess } from "@/features/login/store/loginStore";
@@ -21,11 +20,13 @@ export default function Login() {
 
   async function handleFormSubmit(payload: ILoginRequest) {
     const response = await loginApi(payload);
-    if (response.status !== StatusCodes.CREATED) {
+    if (
+      response.status === StatusCodes.BAD_REQUEST ||
+      response.status === StatusCodes.NOT_FOUND
+    ) {
       return;
     }
     navigate("/");
-    localStorageUtils.set("isLoggedIn", true);
     dispatch(logiSuccess());
   }
 

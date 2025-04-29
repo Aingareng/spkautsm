@@ -1,3 +1,4 @@
+import Authenticated from "@/features/login/components/Authenticated";
 import AuthLayout from "@/pages/auth/AuthLayout";
 import Login from "@/pages/auth/LoginPage";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout";
@@ -12,11 +13,13 @@ export default function Router() {
           <Route path="/login" element={<Login />} />
         </Route>
 
-        <Route element={<DashboardLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<div>About</div>} />
-          <Route path="/contact" element={<div>Contact</div>} />
-          <Route path="*" element={<div>404 Not Found</div>} />
+        <Route element={<Authenticated />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<div>About</div>} />
+            <Route path="/contact" element={<div>Contact</div>} />
+            <Route path="*" element={<div>404 Not Found</div>} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

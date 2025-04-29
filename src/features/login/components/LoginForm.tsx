@@ -25,6 +25,7 @@ interface IProps {
 
 export default function LoginForm({ onSending }: IProps) {
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("🚀 ~ onSubmit ~ values:", values);
     onSending({
       email: values.email,
       pass: values.password,
@@ -70,7 +71,7 @@ export default function LoginForm({ onSending }: IProps) {
           />
         </CardContent>
         <CardFooter className="border mx-5 px-0">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full cursor-pointer">
             Masuk
           </Button>
         </CardFooter>
