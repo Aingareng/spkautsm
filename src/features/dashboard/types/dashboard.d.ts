@@ -10,16 +10,16 @@ export interface IBioPatientPayload {
 }
 export interface IFAQPayload {
   idUser: number;
-  A1: string;
-  A2: string;
-  A3: string;
-  A4: string;
-  A5: string;
-  A6: string;
-  A7: string;
-  A8: string;
-  A9: string;
-  A10: string;
+  A1: number;
+  A2: number;
+  A3: number;
+  A4: number;
+  A5: number;
+  A6: number;
+  A7: number;
+  A8: number;
+  A9: number;
+  A10: number;
 }
 
 type TypeDatasetVariable =

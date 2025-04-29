@@ -41,16 +41,16 @@ export default function Quiz() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      A1: "yes",
-      A2: "yes",
-      A3: "yes",
-      A4: "yes",
-      A5: "yes",
-      A6: "yes",
-      A7: "yes",
-      A8: "yes",
-      A9: "yes",
-      A10: "yes",
+      A1: "1",
+      A2: "1",
+      A3: "1",
+      A4: "1",
+      A5: "1",
+      A6: "1",
+      A7: "1",
+      A8: "1",
+      A9: "1",
+      A10: "1",
     },
   });
 
@@ -63,7 +63,11 @@ export default function Quiz() {
     }
 
     const payload: IFAQPayload = {
-      ...values,
+      ...Object.fromEntries(
+        Object.entries(values).map(([key, value]) =>
+          key.startsWith("A") ? [key, Number(value)] : [key, value]
+        )
+      ),
       idUser: user.id,
     };
     const result = await createFAQ(payload);
@@ -109,14 +113,14 @@ export default function Quiz() {
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="yes" />
+                            <RadioGroupItem value="1" />
                           </FormControl>
                           <FormLabel className="font-normal">Ya</FormLabel>
                         </FormItem>
 
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="no" />
+                            <RadioGroupItem value="0" />
                           </FormControl>
                           <FormLabel className="font-normal">Tidak</FormLabel>
                         </FormItem>
