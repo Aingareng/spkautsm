@@ -98,7 +98,10 @@ export default function Quiz() {
       <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         {quiz &&
           quiz.data?.map((item) => (
-            <Card key={item.id} className="w-[550px]">
+            <Card
+              key={item.id}
+              className="w-[550px] border border-l-8 border-l-primary"
+            >
               <CardHeader>{item.question_text}</CardHeader>
               <CardContent>
                 <FormField
@@ -133,10 +136,7 @@ export default function Quiz() {
             </Card>
           ))}
         <div className="flex justify-end mt-4">
-          <div className="flex gap-2">
-            <Button type="reset">Reset</Button>
-            <Button type="submit">Kirim</Button>
-          </div>
+          <Button type="submit">Kirim</Button>
         </div>
       </form>
     </Form>

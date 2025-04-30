@@ -15,8 +15,13 @@ import { z } from "zod";
 import { ILoginRequest } from "../types/login";
 
 const formSchema = z.object({
-  email: z.string().email().nonempty("Email is required"),
-  password: z.string().min(8, "Password must be at least 8 characters long"),
+  email: z
+    .string()
+    .nonempty("Email wajib diisi")
+    .email({ message: "Email tidak valid" }),
+  password: z
+    .string()
+    .min(8, "Kata sandi minimal harus terdiri dari 8 karakter"),
 });
 
 interface IProps {
@@ -25,7 +30,6 @@ interface IProps {
 
 export default function LoginForm({ onSending }: IProps) {
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("🚀 ~ onSubmit ~ values:", values);
     onSending({
       email: values.email,
       pass: values.password,
