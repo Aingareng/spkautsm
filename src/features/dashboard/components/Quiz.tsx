@@ -19,6 +19,10 @@ import localStorageUtils from "@/shared/utils/storage";
 import { IBioPatientData, IFAQPayload } from "../types/dashboard";
 import { StatusCodes } from "@/shared/types/statusCodes";
 import { toast } from "sonner";
+import { useAppDispatch } from "@/shared/hooks/reduxHooks";
+import { setTabValue } from "../store/tabStore";
+import { setPatientStatus } from "../store/bioPatientStore";
+import { useState } from "react";
 
 const formSchema = z
   .object({
@@ -37,6 +41,7 @@ const formSchema = z
 
 export default function Quiz() {
   const { quiz, isLoading, createFAQ } = useFAQ();
+  const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,6 +58,7 @@ export default function Quiz() {
       A10: "yes",
     },
   });
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const user = localStorageUtils.get<IBioPatientData>("PATIENT");
@@ -67,13 +73,18 @@ export default function Quiz() {
       idUser: user.id.toString(),
     };
 
+    setButtonLoading(true);
+
     const result = await createFAQ(payload);
+    setButtonLoading(false);
 
     if (
       result.status === StatusCodes.CREATED ||
       result.status === StatusCodes.ACCEPTED
     ) {
-      toast("Berhasil");
+      dispatch(setTabValue("result"));
+      dispatch(setPatientStatus("RESULT"));
+      localStorageUtils.set("PATIENT_STATE", "RESULT");
     }
   }
 
@@ -133,7 +144,9 @@ export default function Quiz() {
             </Card>
           ))}
         <div className="flex justify-end mt-4">
-          <Button type="submit">Kirim</Button>
+          <Button type="submit" disabled={buttonLoading}>
+            {buttonLoading ? "Mengirim..." : "Kirim"}
+          </Button>
         </div>
       </form>
     </Form>

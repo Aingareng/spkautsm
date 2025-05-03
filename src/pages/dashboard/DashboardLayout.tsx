@@ -29,8 +29,12 @@ export default function DashboardLayout() {
 
     if (isCheckUpSession === "INPUT_BIO") {
       dispatch(setTabValue("bio"));
-    } else if (isCheckUpSession === "CHEKUP") {
+    }
+    if (isCheckUpSession === "CHEKUP") {
       dispatch(setTabValue("quiz"));
+    }
+    if (isCheckUpSession === "RESULT") {
+      dispatch(setTabValue("result"));
     }
   }, [dispatch, isCheckUpSession, patientStatus, user]);
 
@@ -74,7 +78,11 @@ export default function DashboardLayout() {
               >
                 Kuisoner
               </TabsTrigger>
-              <TabsTrigger className="cursor-pointer" value="result">
+              <TabsTrigger
+                disabled={isCheckUpSession !== "RESULT"}
+                className="cursor-pointer"
+                value="result"
+              >
                 Hasil
               </TabsTrigger>
             </TabsList>

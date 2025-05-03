@@ -37,6 +37,9 @@ export default function Login() {
   useEffect(() => {
     localStorageUtils.set("isLoggedIn", false);
     localStorageUtils.remove("tabValue");
+    localStorageUtils.remove("PATIENT_STATE");
+    localStorageUtils.remove("PATIENT");
+    localStorageUtils.remove("user");
   }, []);
 
   return (

@@ -33,6 +33,7 @@ import { StatusCodes } from "@/shared/types/statusCodes";
 import { useAppDispatch } from "@/shared/hooks/reduxHooks";
 import { setPatientStatus } from "../store/bioPatientStore";
 import localStorageUtils from "@/shared/utils/storage";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z
@@ -70,13 +71,16 @@ export default function BioPatient() {
 
   const { createPatient } = usePatient();
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const payload: IBioPatientPayload = {
       ...values,
       age: +values.age,
     };
+    setIsLoading(true);
     const result = await createPatient(payload);
+    setIsLoading(false);
 
     if (result.status === StatusCodes.CREATED) {
       dispatch(setPatientStatus("CHEKUP"));
@@ -222,7 +226,9 @@ export default function BioPatient() {
           </CardContent>
 
           <CardFooter className="flex justify-end space-x-2">
-            <Button type="submit">Kirim</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Mengirim..." : "Kirim"}
+            </Button>
           </CardFooter>
         </Card>
       </form>
