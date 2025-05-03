@@ -22,16 +22,16 @@ import { toast } from "sonner";
 
 const formSchema = z
   .object({
-    A1: z.string().nonempty({ message: "Wajib di isi" }),
-    A2: z.string().nonempty({ message: "Wajib di isi" }),
-    A3: z.string().nonempty({ message: "Wajib di isi" }),
-    A4: z.string().nonempty({ message: "Wajib di isi" }),
-    A5: z.string().nonempty({ message: "Wajib di isi" }),
-    A6: z.string().nonempty({ message: "Wajib di isi" }),
-    A7: z.string().nonempty({ message: "Wajib di isi" }),
-    A8: z.string().nonempty({ message: "Wajib di isi" }),
-    A9: z.string().nonempty({ message: "Wajib di isi" }),
-    A10: z.string().nonempty({ message: "Wajib di isi" }),
+    A1: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A2: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A3: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A4: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A5: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A6: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A7: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A8: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A9: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
+    A10: z.enum(["yes", "no"], { required_error: "Wajib di isi" }),
   })
   .and(z.record(z.string(), z.string()));
 
@@ -41,21 +41,21 @@ export default function Quiz() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      A1: "1",
-      A2: "1",
-      A3: "1",
-      A4: "1",
-      A5: "1",
-      A6: "1",
-      A7: "1",
-      A8: "1",
-      A9: "1",
-      A10: "1",
+      A1: "yes",
+      A2: "yes",
+      A3: "yes",
+      A4: "yes",
+      A5: "yes",
+      A6: "yes",
+      A7: "yes",
+      A8: "yes",
+      A9: "yes",
+      A10: "yes",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const user = localStorageUtils.get<IBioPatientData>("USER");
+    const user = localStorageUtils.get<IBioPatientData>("PATIENT");
 
     if (!user) {
       toast("Bio pasien tidak ditemukan");
@@ -63,13 +63,10 @@ export default function Quiz() {
     }
 
     const payload: IFAQPayload = {
-      ...Object.fromEntries(
-        Object.entries(values).map(([key, value]) =>
-          key.startsWith("A") ? [key, Number(value)] : [key, value]
-        )
-      ),
-      idUser: user.id,
+      ...values,
+      idUser: user.id.toString(),
     };
+
     const result = await createFAQ(payload);
 
     if (
@@ -116,14 +113,14 @@ export default function Quiz() {
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="1" />
+                            <RadioGroupItem value="yes" />
                           </FormControl>
                           <FormLabel className="font-normal">Ya</FormLabel>
                         </FormItem>
 
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="0" />
+                            <RadioGroupItem value="no" />
                           </FormControl>
                           <FormLabel className="font-normal">Tidak</FormLabel>
                         </FormItem>

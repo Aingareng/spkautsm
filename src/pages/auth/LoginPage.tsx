@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { StatusCodes } from "@/shared/types/statusCodes";
 import { useAppDispatch } from "@/shared/hooks/reduxHooks";
 import { logiSuccess } from "@/features/login/store/loginStore";
+import { useEffect } from "react";
+import localStorageUtils from "@/shared/utils/storage";
 
 export default function Login() {
   const { loginApi } = useLogin();
@@ -27,8 +29,15 @@ export default function Login() {
       return;
     }
     navigate("/");
-    dispatch(logiSuccess());
+    dispatch(logiSuccess(response.data));
+    localStorageUtils.set("isLoggedIn", true);
+    localStorageUtils.set("user", response.data);
   }
+
+  useEffect(() => {
+    localStorageUtils.set("isLoggedIn", false);
+    localStorageUtils.remove("tabValue");
+  }, []);
 
   return (
     <div className="">

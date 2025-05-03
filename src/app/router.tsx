@@ -16,8 +16,6 @@ export default function Router() {
         <Route element={<Authenticated />}>
           <Route element={<DashboardLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<div>About</div>} />
-            <Route path="/contact" element={<div>Contact</div>} />
             <Route path="*" element={<div>404 Not Found</div>} />
           </Route>
         </Route>

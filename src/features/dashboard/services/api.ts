@@ -5,6 +5,7 @@ import {
   IBioPatientPayload,
   IFAQPayload,
   IFAQTableData,
+  IPatientResult,
 } from "../types/dashboard";
 
 export const getFAQ = async () =>
@@ -15,3 +16,6 @@ export const createPatient = async (payload: IBioPatientPayload) =>
 
 export const createFAQ = async (payload: IFAQPayload) =>
   await api.post<IApiResponse<null>>("/insertKuisoner", payload);
+
+export const getPatientResult = async (id?: number) =>
+  await api.get<IApiResponse<IPatientResult>>(`/results/${id}`);

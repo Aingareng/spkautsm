@@ -13,6 +13,7 @@ export default function DashboardLayout() {
   const dispatch = useAppDispatch();
   const { tabValue } = useAppSelector((s) => s.tab);
   const { patientStatus } = useAppSelector((s) => s.bioPatient);
+  const { user } = useAppSelector((s) => s.login);
   const [isCheckUpSession, setIsCheckUpSession] = useState<TypePatientStatus>();
   const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ export default function DashboardLayout() {
     } else if (isCheckUpSession === "CHEKUP") {
       dispatch(setTabValue("quiz"));
     }
-  }, [dispatch, isCheckUpSession, patientStatus]);
+  }, [dispatch, isCheckUpSession, patientStatus, user]);
 
   function handleLogout() {
     dispatch(logout());
@@ -73,7 +74,7 @@ export default function DashboardLayout() {
               >
                 Kuisoner
               </TabsTrigger>
-              <TabsTrigger disabled className="cursor-pointer" value="result">
+              <TabsTrigger className="cursor-pointer" value="result">
                 Hasil
               </TabsTrigger>
             </TabsList>

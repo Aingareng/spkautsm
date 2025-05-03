@@ -1,25 +1,24 @@
-import localStorageUtils from "@/shared/utils/storage";
 import { createSlice } from "@reduxjs/toolkit";
+import { ILoginData } from "../types/login";
 
 interface LoginState {
   isLoggedIn: boolean;
-  // user?: string | null;
+  user: ILoginData | null;
 }
 
-const initialState: LoginState = { isLoggedIn: false };
+const initialState: LoginState = { isLoggedIn: false, user: null };
 
 export const loginStore = createSlice({
   name: "login",
   initialState,
   reducers: {
-    logiSuccess: (state) => {
+    logiSuccess: (state, action) => {
       state.isLoggedIn = true;
-      localStorageUtils.set("isLoggedIn", true);
+      state.user = action.payload;
     },
     logout: (state) => {
       state.isLoggedIn = false;
-      localStorageUtils.set("isLoggedIn", false);
-      localStorageUtils.remove("tabValue");
+      state.user = null;
     },
   },
 });

@@ -35,15 +35,25 @@ import { setPatientStatus } from "../store/bioPatientStore";
 import localStorageUtils from "@/shared/utils/storage";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Nama pasien wajib diisi" }),
+  name: z
+    .string()
+    .nonempty({ message: "Nama pasien wajib diisi" })
+    .min(2, { message: "Nama pasien minimal 2 huruf" })
+    .refine((val) => /^[A-Za-z\s]+$/.test(val), {
+      message: "Nama pasien hanya boleh berisi huruf dan spasi",
+    }),
   age: z
     .string()
-    .min(1, { message: "Umur pasien wajib diisi" })
-    .max(20, { message: "Batas umur pasien 20 tahun" })
-    .regex(/^\d+$/, { message: "Umur hanya boleh berupa angka" }),
+    .nonempty({ message: "Umur pasien wajib diisi" })
+    .regex(/^\d+$/, { message: "Umur hanya boleh berupa angka" })
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => val <= 3, {
+      message: "Umur pasien tidak boleh lebih dari 3 tahun",
+    })
+    .transform((val) => val.toString()),
   sex: z.enum(["f", "m"]),
-  familyAsd: z.enum(["yes", "no", "unknown"]),
-  juandice: z.enum(["yes", "no", "unknown"]),
+  familyAsd: z.enum(["yes", "no"]),
+  juandice: z.enum(["yes", "no"]),
 });
 
 export default function BioPatient() {
@@ -52,8 +62,8 @@ export default function BioPatient() {
     defaultValues: {
       name: "",
       age: "",
-      familyAsd: "unknown",
-      juandice: "unknown",
+      familyAsd: "yes",
+      juandice: "yes",
       sex: "m",
     },
   });
@@ -70,8 +80,7 @@ export default function BioPatient() {
 
     if (result.status === StatusCodes.CREATED) {
       dispatch(setPatientStatus("CHEKUP"));
-
-      localStorageUtils.set("USER", result.data);
+      localStorageUtils.set("PATIENT", result.data);
     }
 
     return;

@@ -9,17 +9,17 @@ export interface IBioPatientPayload {
   familyAsd: TypeUnion;
 }
 export interface IFAQPayload {
-  idUser: number;
-  A1: number;
-  A2: number;
-  A3: number;
-  A4: number;
-  A5: number;
-  A6: number;
-  A7: number;
-  A8: number;
-  A9: number;
-  A10: number;
+  idUser: string;
+  A1: "yes" | "no";
+  A2: "yes" | "no";
+  A3: "yes" | "no";
+  A4: "yes" | "no";
+  A5: "yes" | "no";
+  A6: "yes" | "no";
+  A7: "yes" | "no";
+  A8: "yes" | "no";
+  A9: "yes" | "no";
+  A10: "yes" | "no";
 }
 
 type TypeDatasetVariable =
@@ -42,4 +42,26 @@ export interface IFAQTableData {
 export interface IBioPatientData {
   id: number;
   name: string;
+}
+
+interface IPatientData {
+  pasienId: number;
+  pasienName: string;
+  pasienAge: number;
+  pasienGender: TypePatientSex;
+  asdPresentasi: string;
+  nonAsdPresentasi: string;
+  hasilKlasifikasi: "YES" | "NO";
+}
+
+interface IPosterior {
+  posteriorYES: string;
+  posteriorNO: string;
+}
+
+export interface IPatientResult {
+  patient: IPatientData;
+  calculationDetails: {
+    posterior: IPosterior;
+  };
 }
