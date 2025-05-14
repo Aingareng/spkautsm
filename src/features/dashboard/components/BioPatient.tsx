@@ -48,8 +48,8 @@ const formSchema = z.object({
     .nonempty({ message: "Umur pasien wajib diisi" })
     .regex(/^\d+$/, { message: "Umur hanya boleh berupa angka" })
     .transform((val) => parseInt(val, 10))
-    .refine((val) => val <= 3, {
-      message: "Umur pasien tidak boleh lebih dari 3 tahun",
+    .refine((val) => val <= 48, {
+      message: "Umur pasien tidak boleh lebih dari 48 bulan",
     })
     .transform((val) => val.toString()),
   sex: z.enum(["f", "m"]),

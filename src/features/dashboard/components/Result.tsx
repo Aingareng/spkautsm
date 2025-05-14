@@ -13,8 +13,8 @@ import usePatient from "../hooks/usePatient";
 import { useEffect, useState } from "react";
 import localStorageUtils from "@/shared/utils/storage";
 import AlertInfo from "@/features/dashboard/components/AlertInfo";
-import StepRecomendation from "./stepRecomendation";
 import convertToPercent from "@/shared/utils/convertToPercent";
+import StepRecomendation from "./StepRecomendation";
 
 export default function Result() {
   const [patientState, setPatientState] = useState<{
@@ -50,7 +50,7 @@ export default function Result() {
         <CardDescription>
           <p>{formatTanggalIndonesia(new Date().toString())}</p>
           <p>
-            {patient.pasienName}, {patient.pasienAge} tahun
+            {patient.pasienName}, {patient.pasienAge} bulan
           </p>
         </CardDescription>
       </CardHeader>

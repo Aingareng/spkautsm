@@ -9,6 +9,7 @@ import localStorageUtils from "@/shared/utils/storage";
 import { LogOutIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+
 export default function DashboardLayout() {
   const dispatch = useAppDispatch();
   const { tabValue } = useAppSelector((s) => s.tab);
