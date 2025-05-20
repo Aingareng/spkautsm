@@ -52,9 +52,12 @@ export default function DashboardLayout() {
             variant="ghost"
             className="cursor-pointer"
             onClick={handleLogout}
+            asChild
           >
-            <LogOutIcon />
-            Keluar
+            <a href="/login">
+              <LogOutIcon />
+              Keluar
+            </a>
           </Button>
         </section>
         <section className="h-16 flex items-center justify-center col-span-2 ">
