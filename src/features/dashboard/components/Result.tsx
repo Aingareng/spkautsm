@@ -59,11 +59,11 @@ export default function Result() {
           <div className="flex">
             <AutismResult
               label="ASD"
-              value={+convertToPercent(+patient.asdPresentasi)}
+              value={+convertToPercent(+patient.nonAsdPresentasi)}
             />
             <AutismResult
               label="NON-ASD"
-              value={+convertToPercent(+patient.nonAsdPresentasi)}
+              value={+convertToPercent(+patient.asdPresentasi)}
             />
           </div>
 
